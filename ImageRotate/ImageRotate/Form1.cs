@@ -27,6 +27,9 @@ namespace ImageRotate
             trackBar1.Minimum = 0;
             trackBar1.Maximum = 360;
 
+            trackBar2.Minimum = -300;
+            trackBar2.Maximum = 300;
+
             comboBox1.Items.Add("RotateNearestNeighbor");
             comboBox1.Items.Add("RotateBilinear");
             comboBox1.Items.Add("RotateBicubic");
@@ -53,6 +56,12 @@ namespace ImageRotate
                     RotateNearestNeighbor boyutlandirmaFiltresi = new RotateNearestNeighbor(trackBar1.Value, tamEkran);
                     //resim dosyasına filtre uygulandı
                     pictureBox2.Image = boyutlandirmaFiltresi.Apply((Bitmap)pictureBox1.Image);
+                    //resim boyut değiştirme filtresi tanımlandı
+                    //bu filtre sistemi yormuyor
+                    //diğerleri sistemi zorluyor
+                    ResizeNearestNeighbor boyutlandirma = new ResizeNearestNeighbor(resim.Width + trackBar2.Value, resim.Height + trackBar2.Value);
+                    //resim dosyasına filtre uygulandı
+                    pictureBox2.Image = boyutlandirma.Apply((Bitmap)pictureBox1.Image);
                 }
                 if (comboBox1.SelectedIndex == 1)
                 {
@@ -60,6 +69,10 @@ namespace ImageRotate
                     RotateBilinear boyutlandirmaFiltresi = new RotateBilinear(trackBar1.Value, tamEkran);
                     //resim dosyasına filtre uygulandı
                     pictureBox2.Image = boyutlandirmaFiltresi.Apply((Bitmap)pictureBox1.Image);
+                    //resim boyut değiştirme filtresi tanımlandı
+                    ResizeBicubic boyutlandirma = new ResizeBicubic(resim.Width + trackBar2.Value, resim.Height + trackBar2.Value);
+                    //resim dosyasına filtre uygulandı
+                    pictureBox2.Image = boyutlandirma.Apply((Bitmap)pictureBox1.Image);
                 }
                 if (comboBox1.SelectedIndex == 2)
                 {
@@ -67,6 +80,10 @@ namespace ImageRotate
                     RotateBicubic boyutlandirmaFiltresi = new RotateBicubic(trackBar1.Value, tamEkran);
                     //resim dosyasına filtre uygulandı
                     pictureBox2.Image = boyutlandirmaFiltresi.Apply((Bitmap)pictureBox1.Image);
+                    //resim boyut değiştirme filtresi tanımlandı
+                    ResizeBilinear boyutlandirma = new ResizeBilinear(resim.Width + trackBar2.Value, resim.Height + trackBar2.Value);
+                    //resim dosyasına filtre uygulandı
+                    pictureBox2.Image = boyutlandirma.Apply((Bitmap)pictureBox1.Image);
                 }
             }
             catch
@@ -88,6 +105,11 @@ namespace ImageRotate
             goruntuGuncelle();
         }
 
+        private void trackBar2_Scroll(object sender, EventArgs e)
+        {
+            goruntuGuncelle();
+        }
+
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             goruntuGuncelle();
@@ -97,6 +119,11 @@ namespace ImageRotate
         {
             tamEkran = !checkBox1.Checked; //dikkat, burada değili alındı
             goruntuGuncelle();
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
